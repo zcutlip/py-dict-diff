@@ -7,12 +7,10 @@ class DictDiff:
         self.same = same
 
     def _dict_compare(self, d1, d2):
-        d1 = {k: v for k, v in d1.items()}
-        d2 = {k: v for k, v in d2.items()}
-        d1_keys = set(d1.keys())
-        d2_keys = set(d2.keys())
+        d1_keys = d1.keys()
+        d2_keys = d2.keys()
 
-        intersect_keys = d1_keys.intersection(d2_keys)
+        intersect_keys = set(d1_keys).intersection(d2_keys)
         intersect_keys = list(intersect_keys)
         intersect_keys.sort()
 
@@ -27,7 +25,7 @@ class DictDiff:
 
         modified = {o: d2[o] for o in intersect_keys if d1[o] != d2[o]}
 
-        same = set(o for o in intersect_keys if d1[o] == d2[o])
+        same = intersect_keys - modified.keys()
         same = list(same)
         same.sort()
 
